@@ -159,6 +159,9 @@ change. PRs welcome.
 - [batocera-skills](https://github.com/t3chnaztea/batocera-skills): the same
   idea for a Batocera retro-gaming cabinet (and the structural template for
   this repo).
+- [awesome-psn-skills](https://github.com/t3chnaztea/awesome-psn-skills): the
+  same idea for reading a PlayStation play-history export (taste, backlog,
+  wishlist).
 
 ## Versions
 
