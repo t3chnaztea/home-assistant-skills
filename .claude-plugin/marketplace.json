@@ -1,0 +1,25 @@
+{
+  "name": "t3chnaztea-ha",
+  "description": "Agent skills for running a Home Assistant smart home with coding agents.",
+  "owner": {
+    "name": "tech nasty"
+  },
+  "plugins": [
+    {
+      "name": "home-assistant",
+      "source": "./",
+      "description": "Agent skills for operating a Home Assistant instance: connection doctrine, instance mapping, automation authoring with verification, and external triggers (price feeds, LLM-as-sensor).",
+      "category": "smart-home",
+      "tags": [
+        "home-assistant",
+        "home-automation",
+        "smart-home",
+        "automations",
+        "ai-task",
+        "ssh",
+        "rest-api",
+        "agent-skills"
+      ]
+    }
+  ]
+}
