@@ -54,6 +54,34 @@ verify doctrine.
 
 ---
 
+## Why not just use the MCP integration?
+
+Fair question. Home Assistant has an official MCP Server integration, and
+HACS has community MCP servers. Point your agent at one and it can read
+entity states and call services, scoped to the entities you expose, with no
+SSH and no root token. **If that's all you need (control, status questions,
+"turn the lights off when I say goodnight"), use MCP.** Less setup, smaller
+blast radius, works with local LLMs.
+
+These skills exist for the job MCP can't reach: **administering the
+instance.** The MCP surface is state and services; it can't touch config.
+
+| Task | MCP | These skills |
+|------|:---:|:---:|
+| Read states, call services | ✅ | ✅ |
+| Write or refactor `automations.yaml` | ❌ | ✅ |
+| `ha core check` before a reload | ❌ | ✅ |
+| Tail logs when an automation loads clean but never fires | ❌ | ✅ |
+| Grep the config for two automations racing each other | ❌ | ✅ |
+| Snapshot/backup before surgery | ❌ | ✅ |
+
+They compose: MCP for day-to-day control, these lanes for admin sessions.
+The skills tell the agent the same thing (see "Lane zero" in
+[`ha-connect`](skills/ha-connect/SKILL.md)): if a task is purely state reads
+and service calls, it doesn't need SSH at all.
+
+---
+
 ## ⚠️ Read before you install
 
 **These skills direct an agent to SSH into your Home Assistant box as `root`

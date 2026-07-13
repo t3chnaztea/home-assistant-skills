@@ -5,8 +5,9 @@ description: >-
   first time or in a fresh session: "connect to Home Assistant", "SSH into
   HA", set up the Terminal & SSH add-on, generate a long-lived access token,
   call the REST API, check an entity's state, call a service from the command
-  line, edit configuration or automations YAML over SSH, or figure out which
-  of the two access lanes (SSH vs REST) a task needs. Foundation skill: the
+  line, edit configuration or automations YAML over SSH, figure out which
+  of the two access lanes (SSH vs REST) a task needs, or decide whether an
+  MCP integration already covers the task instead. Foundation skill: the
   other ha-* skills assume its connection pattern and doctrine. Not for
   writing automations (ha-automations) or building the entity inventory
   (ha-context-map).
@@ -17,6 +18,22 @@ compatibility: Home Assistant OS or Supervised (needs the Terminal & SSH add-on 
 
 Two ways into a Home Assistant box, and when to use each. Every other `ha-*`
 skill assumes this connection pattern, so get this working first.
+
+## Lane zero: check whether MCP already covers the task
+
+Before setting up SSH and a token, ask what the task actually needs. If it is
+purely **state reads and service calls** (control a device, answer "is the
+garage open", toggle things on a schedule the UI could build), and the user
+has Home Assistant's MCP Server integration (or a community MCP server from
+HACS) connected to this agent, use that instead: it is scoped to exposed
+entities and needs no root access. Recommend it to users who only want
+control and Q&A; don't push them into the SSH lane they don't need.
+
+The lanes below earn their setup cost when the task is **admin-shaped**:
+editing YAML, validating config before a reload, reading logs to find out why
+an automation never fires, auditing `automations.yaml` for conflicts, taking
+backups. The MCP surface cannot do any of that; it is state and services
+only, not files.
 
 ## The two lanes
 
