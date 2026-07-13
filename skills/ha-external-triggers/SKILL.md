@@ -17,14 +17,14 @@ compatibility: Home Assistant 2024.6+ for the ai_task pattern (needs an AI Task 
 
 The trigger doesn't have to be a device. Two patterns where the "if" comes
 from outside the house: a market price, and a model's judgment. Both build
-on the loop and verify doctrine from `ha-automations` — these are the
+on the loop and verify doctrine from `ha-automations`; these are the
 automations where silent failure is most expensive, because you'll only
 notice on the electric bill or the missed intruder.
 
 ## Pattern A: price-driven load shedding
 
 If your utility exposes real-time or hourly pricing (mine does; yours may be
-a different utility or a dynamic tariff like Octopus Agile — anything that
+a different utility or a dynamic tariff like Octopus Agile; anything that
 lands in HA as a price sensor works), you can automate the response to price
 spikes: alert, pre-cool less aggressively, and shut down discretionary load
 until the price falls.
@@ -32,7 +32,7 @@ until the price falls.
 ### The pieces
 
 ```yaml
-# Helpers (configuration.yaml or the UI). No `initial:` — tuned values and
+# Helpers (configuration.yaml or the UI). No `initial:`; tuned values and
 # the saved setpoint must survive a restart.
 input_number:
   price_alert_threshold:
@@ -97,7 +97,7 @@ automation would not.
   triggers:
     - trigger: numeric_state
       entity_id: sensor.utility_hourly_price
-      # release BELOW threshold minus a margin — never at the same value the
+      # release BELOW threshold minus a margin, never at the same value the
       # engage fires at, or the two automations oscillate at the boundary
       below: "{{ states('input_number.price_shed_threshold') | float - 2 }}"
       for: "00:15:00"
@@ -122,7 +122,7 @@ automation would not.
 ```
 
 (If a `numeric_state` template trigger fights your HA version, put the
-margin check in a template trigger or condition instead — the *rule* is what
+margin check in a template trigger or condition instead; the *rule* is what
 matters: release threshold < engage threshold.)
 
 ### The doctrine, learned the annoying way
@@ -139,7 +139,7 @@ matters: release threshold < engage threshold.)
   banned one.
 - **Stay out of other automations' lanes.** If something else also manages
   the thermostat (eco-when-away, a schedule), add conditions so shed and
-  release only act when those aren't in control — two automations fighting
+  release only act when those aren't in control; two automations fighting
   over one setpoint is undebuggable from the history graph.
 - **Alert separately from acting.** A push notification when the price
   crosses the alert threshold (lower than the shed threshold) keeps the
@@ -149,7 +149,7 @@ matters: release threshold < engage threshold.)
 ## Pattern B: the LLM as a sensor
 
 Cameras give you `person detected`. They don't give you *"is that a person,
-or the cat on the fence, or a headlight shadow?"* — the judgment call that
+or the cat on the fence, or a headlight shadow?"*: the judgment call that
 decides whether a 3am notification is warranted. `ai_task.generate_data`
 (HA's AI Task entity, backed by whatever LLM integration you run) takes a
 camera snapshot and returns **structured** fields your automation can branch
@@ -210,7 +210,7 @@ on.
 ```
 
 Fields come back typed per their selector (`text` → string, `select` → one
-of the options, `boolean`/`number` likewise) at `ai.data.<field>` — no JSON
+of the options, `boolean`/`number` likewise) at `ai.data.<field>`: no JSON
 parsing, no regex over prose.
 
 ### Test it without waiting for a prowler
@@ -242,17 +242,17 @@ trusting it at 3am.
   is empty... say so, threat_level low") *before* the classification ask.
 - **The LLM is the judgment, not the trigger.** Cheap deterministic signals
   (motion sensor, time window) decide *when* to ask; the model only answers
-  the question code can't. Never poll an LLM on a timer to "check" a camera —
+  the question code can't. Never poll an LLM on a timer to "check" a camera;
   cost, latency, and hallucination all scale with pointless calls.
 - **Constrain outputs with selectors**, then branch only on the constrained
   field. Branching on prose (`'person' in ai.data.description`) reintroduces
   everything `structure` exists to prevent.
 - **Fail toward the cheap side.** If the ai_task call errors (LLM down,
-  quota), decide per-automation what the default branch is — for a security
+  quota), decide per-automation what the default branch is: for a security
   notify, fall back to notifying; for a comfort tweak, fall back to nothing.
 - **Judgment calls only.** "Is the sun up" is an astronomical fact
   (`sun.sun`), not a vision task. If a template or a sensor can answer,
-  don't spend a model call — the LLM-as-sensor pattern earns its keep
+  don't spend a model call; the LLM-as-sensor pattern earns its keep
   exactly where deterministic signals run out.
 
 ## Where else this goes

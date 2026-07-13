@@ -15,7 +15,7 @@ compatibility: Any Home Assistant install reachable per ha-connect.
 # HA Context Map
 
 The part people skip. An agent working against a Home Assistant instance
-without a map will guess entity ids — and Home Assistant fails silently
+without a map will guess entity ids, and Home Assistant fails silently
 around bad ids often enough that guessed automations *look* fine and never
 fire. One markdown file fixes this. Assumes the connection lanes from
 `ha-connect`.
@@ -25,7 +25,7 @@ fire. One markdown file fixes this. Assumes the connection lanes from
 `/api/states` on a mature instance returns hundreds of entities with
 machine-generated names (`light.living_room_2`, because the first
 `living_room` was deleted and re-added). The map is where a human confirms,
-once, that `light.living_room_2` **is** the actual living room lamp — and
+once, that `light.living_room_2` **is** the actual living room lamp, and
 where the agent learns it without burning a discovery round-trip every
 session. State is queryable; *meaning* is not.
 
@@ -38,7 +38,7 @@ agent that lands there finds it.
 A section per category, **every section dated**. Suggested skeleton:
 
 ```markdown
-# Home Assistant — instance map (snapshot YYYY-MM-DD)
+# Home Assistant instance map (snapshot YYYY-MM-DD)
 
 ## Host
 - Host: <HA_HOST>, Web UI :8123, SSH via Terminal & SSH add-on
@@ -51,7 +51,7 @@ A section per category, **every section dated**. Suggested skeleton:
 ## Integrations that matter
 - e.g. Hue, MQTT, a camera platform, a utility-price integration
 
-## Key entities (verified by hand — the point of this file)
+## Key entities (verified by hand: the point of this file)
 | Entity | What it actually is |
 |--------|---------------------|
 | light.living_room | Floor lamp, living room |
@@ -62,7 +62,7 @@ A section per category, **every section dated**. Suggested skeleton:
 - input_boolean.away_mode, input_number.price_threshold, ...
 
 ## Notify targets
-- notify.mobile_app_<phone> — the CURRENT one; old phones leave dead services
+- notify.mobile_app_<phone>: the CURRENT one; old phones leave dead services
 
 ## Automations index
 - count + how to list them (don't inline all of them; they rot fastest)
@@ -110,7 +110,7 @@ of entry that belongs there:
 - "`light.kitchen` is a group of only two of the four kitchen lights."
 - "The lamp on the switched outlet reads `unavailable` when the switch is
   off. Normal. Do not flag it."
-- "The old phone's `notify.mobile_app_*` service no longer exists —
+- "The old phone's `notify.mobile_app_*` service no longer exists;
   automations calling it abort silently at that step."
 - "Renamed entities keep their old id unless you rename the *entity id*, not
   just the friendly name."
@@ -123,7 +123,7 @@ the map.
 
 ## Keeping it honest: provenance checks
 
-A map that silently rots is worse than no map — the agent trusts it. Two
+A map that silently rots is worse than no map: the agent trusts it. Two
 rules:
 
 1. **Date every snapshot section.** "Add-ons (as of 2026-07-01)" tells a
@@ -133,10 +133,10 @@ rules:
 
 ```markdown
 ## Provenance
-- Versions: `ssh root@<HA_HOST> 'ha core info'` — expect 2026.x per Host section
+- Versions: `ssh root@<HA_HOST> 'ha core info'`; expect 2026.x per Host section
 - API alive: `curl -s -H "Authorization: Bearer $HA_TOKEN" http://$HA_HOST:8123/api/`
-- Automation count: `grep -cE "^- id:" /config/automations.yaml` — expect <N>
-- Spot-check any entity row: `curl .../api/states/<entity_id>` — 404 = stale row
+- Automation count: `grep -cE "^- id:" /config/automations.yaml`; expect <N>
+- Spot-check any entity row: `curl .../api/states/<entity_id>`; 404 = stale row
 ```
 
 If a check disagrees with the map, trust the live output, fix the map, and

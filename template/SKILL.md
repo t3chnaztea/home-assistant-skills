@@ -28,7 +28,7 @@ Delete this section in your real skill; it's guidance for authoring.
 - **Markdown only.** This collection ships doctrine and fenced curl/ssh/YAML
   recipes, not scripts. The agent writes throwaway code per task; recipes
   stay honest and adaptable where scripts rot.
-- **Original prose only.** Don't paste from the Home Assistant docs — write
+- **Original prose only.** Don't paste from the Home Assistant docs; write
   the lesson the docs don't teach, and link the docs as the canonical manual.
 - **Parameterize everything instance-specific.** `<HA_HOST>` or
   `homeassistant.local`, never a real IP; `$HA_TOKEN` from env, never a

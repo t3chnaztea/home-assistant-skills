@@ -23,7 +23,7 @@ skill assumes this connection pattern, so get this working first.
 | Lane | Transport | Use for |
 |------|-----------|---------|
 | **SSH** | Terminal & SSH add-on, port 22 | Editing YAML in `/config`, the `ha` CLI (`ha core check`, `ha core info`, `ha backups new`), reading logs, anything file-shaped |
-| **REST API** | HTTP :8123 + long-lived token | Live entity state, calling services, rendering templates, verification reads — anything state-shaped |
+| **REST API** | HTTP :8123 + long-lived token | Live entity state, calling services, rendering templates, verification reads: anything state-shaped |
 
 Rule of thumb: **files over SSH, state over REST.** Editing `automations.yaml`
 via the API is miserable; reading a sensor over SSH by grepping a database is
@@ -46,7 +46,7 @@ ssh root@homeassistant.local 'ha core info'
 Two things to know about where you land:
 
 - You are in the **add-on container**, not the host OS. `/config` is mounted
-  there and is the same `/config` Core sees — that's where
+  there and is the same `/config` Core sees; that's where
   `configuration.yaml`, `automations.yaml`, and `scripts.yaml` live.
 - The `ha` CLI is available and is the supported way to talk to the
   supervisor: `ha core check`, `ha core restart`, `ha addons`, `ha backups new`.
@@ -59,7 +59,7 @@ instance's IP or hostname; the recipes below write it as `<HA_HOST>`.
 In the HA web UI: click your user (bottom of sidebar) → **Security** tab →
 **Long-lived access tokens** → Create Token. It is shown **once**.
 
-Store it in an env var or an untracked env file — never in a skill, a script,
+Store it in an env var or an untracked env file, never in a skill, a script,
 a committed file, or a chat transcript:
 
 ```bash
@@ -75,7 +75,7 @@ curl -s -H "Authorization: Bearer $HA_TOKEN" "http://$HA_HOST:8123/api/"
 ```
 
 That health check is the first command of every session. If it fails, nothing
-else in these skills will work — fix the token/host before debugging anything
+else in these skills will work; fix the token/host before debugging anything
 downstream.
 
 ## REST recipes
@@ -83,7 +83,7 @@ downstream.
 All assume `source ~/.config/ha/env` has run.
 
 ```bash
-# Single entity state (the verification primitive — you will use this constantly)
+# Single entity state (the verification primitive; you will use this constantly)
 curl -s -H "Authorization: Bearer $HA_TOKEN" \
   "http://$HA_HOST:8123/api/states/light.living_room"
 
@@ -123,7 +123,7 @@ Gotchas worth knowing before they bite:
 - **A call naming a nonexistent service or entity can fail quietly** from the
   caller's perspective (or 400 with a terse message). When a call "did
   nothing", first confirm the service exists via `/api/services` and the
-  entity id via `/api/states/<id>` — typos are the #1 cause.
+  entity id via `/api/states/<id>`; typos are the #1 cause.
 - `POST /api/services/...` responds with a list of states that *changed* as a
   direct result. An empty list on a `turn_on` for an already-on light is
   normal, not an error.
@@ -134,7 +134,7 @@ Gotchas worth knowing before they bite:
 # Where the YAML lives
 ssh root@<HA_HOST> 'ls -la /config/'
 
-# Validate config BEFORE any reload/restart — the single most important command
+# Validate config BEFORE any reload/restart: the single most important command
 ssh root@<HA_HOST> 'ha core check'
 
 # Read the error log when something misbehaves
@@ -148,7 +148,7 @@ ssh root@<HA_HOST> 'ha core info; ha os info'
 ```
 
 Editing files remotely: prefer pulling the file down, editing locally, and
-pushing back — or a quoted heredoc — over inline `sed`/`awk` with nested
+pushing back, or a quoted heredoc, over inline `sed`/`awk` with nested
 escaping (which corrupts YAML edits with depressing regularity):
 
 ```bash

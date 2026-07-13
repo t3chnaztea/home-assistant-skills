@@ -1,7 +1,7 @@
 <!-- if this, then that -->
 
 <p align="center">
-  <img src="./media/hero.png" alt="home-assistant-skills — agent skills for running a real smart home" width="840">
+  <img src="./media/hero.png" alt="home-assistant-skills: agent skills for running a real smart home" width="840">
 </p>
 
 <p align="center">
@@ -25,7 +25,7 @@
 
 ## The four skills
 
-Each is a self-contained home for one area. **Start with `ha-connect`** — the
+Each is a self-contained home for one area. **Start with `ha-connect`**: the
 others assume its two access lanes (SSH for files, REST for state) and its
 verify doctrine.
 
@@ -37,7 +37,7 @@ verify doctrine.
     </td>
     <td align="center" width="50%" valign="top">
       <a href="skills/ha-context-map/SKILL.md"><b>🗺️ ha-context-map</b></a><br />
-      <sub>The part people skip. The instance map file — verified entity inventory, add-ons, notify targets, and a running Gotchas list — so the agent stops guessing entity ids.</sub>
+      <sub>The part people skip. The instance map file (verified entity inventory, add-ons, notify targets, and a running Gotchas list) so the agent stops guessing entity ids.</sub>
     </td>
   </tr>
   <tr>
@@ -47,7 +47,7 @@ verify doctrine.
     </td>
     <td align="center" width="50%" valign="top">
       <a href="skills/ha-external-triggers/SKILL.md"><b>⚡ ha-external-triggers</b></a><br />
-      <sub>The "if" doesn't have to be a device: a real-time electricity price driving a load-shed loop, and an LLM as a sensor — camera snapshot + <code>ai_task</code> for judgment calls.</sub>
+      <sub>The "if" doesn't have to be a device: a real-time electricity price driving a load-shed loop, and an LLM as a sensor: camera snapshot + <code>ai_task</code> for judgment calls.</sub>
     </td>
   </tr>
 </table>
@@ -59,7 +59,7 @@ verify doctrine.
 **These skills direct an agent to SSH into your Home Assistant box as `root`
 and to hold an admin API token.** That is exactly as powerful as it sounds.
 
-- **Review the skills before installing.** They're plain Markdown — read what
+- **Review the skills before installing.** They're plain Markdown; read what
   they'll have your agent do. Nothing here phones home or auto-runs; they're
   reference guides. But you are handing an agent an operating manual for the
   thing that controls your house.
@@ -113,7 +113,7 @@ trusting near your house. Skills ship doctrine plus fenced curl/ssh/YAML
 recipes; your agent writes whatever throwaway code the task needs, fresh,
 against your actual instance.
 
-Skills are original prose — operational lessons, not a copy of the manual.
+Skills are original prose: operational lessons, not a copy of the manual.
 The [Home Assistant docs](https://www.home-assistant.io/docs/) remain the
 canonical reference; these skills capture what running an instance with
 agents teaches you that the docs don't.
@@ -128,7 +128,7 @@ change. PRs welcome.
 
 ## Companion repos
 
-- [batocera-skills](https://github.com/t3chnaztea/batocera-skills) — the same
+- [batocera-skills](https://github.com/t3chnaztea/batocera-skills): the same
   idea for a Batocera retro-gaming cabinet (and the structural template for
   this repo).
 
@@ -137,11 +137,11 @@ change. PRs welcome.
 Distilled on Home Assistant OS with Core 2025–2026 releases. HA moves fast
 (`triggers:`/`actions:` key renames, `ai_task` is recent); confirm
 version-specific claims against `ha core info` on your box. When in doubt,
-the instance is the source of truth — read the entity, not the docs.
+the instance is the source of truth: read the entity, not the docs.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT; see [LICENSE](LICENSE).
 
 > Not affiliated with the Home Assistant project or Nabu Casa. "Home
 > Assistant" is used here descriptively; this is an independent,

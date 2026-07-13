@@ -19,7 +19,7 @@ Describe in English → write YAML → `ha core check` → reload → **verify**
 Home Assistant's failure mode is almost never an error message; it's an
 automation that loads fine and silently never does what you meant. The loop
 below exists because of that. Assumes the lanes and env from `ha-connect`,
-and entity ids confirmed via `ha-context-map` — never guessed.
+and entity ids confirmed via `ha-context-map`, never guessed.
 
 ## The loop
 
@@ -61,14 +61,14 @@ and an `alias:`.
 
 Back up before editing, edit via the pull-down/push-up pattern from
 `ha-connect` (not inline `sed` over SSH), and know that **the entity id HA
-mints for the automation slugs from the `alias`, not the `id`** —
+mints for the automation slugs from the `alias`, not the `id`**:
 `automation.tv_idle_shutdown` here, but rename the alias and the entity id
 follows on reload.
 
 Test any nontrivial Jinja against live state via `POST /api/template`
 *before* embedding it (recipe in `ha-connect`).
 
-### 3. Check, then reload — never skip, never restart
+### 3. Check, then reload: never skip, never restart
 
 ```bash
 ssh root@<HA_HOST> 'ha core check'          # must pass before reload
@@ -79,7 +79,7 @@ curl -s -X POST -H "Authorization: Bearer $HA_TOKEN" \
 
 `ha core check` catches YAML/schema errors; the reload picks up
 `automations.yaml` without a Core restart (a restart drops every `for:`
-timer currently counting and briefly kills the whole house — reserve it for
+timer currently counting and briefly kills the whole house; reserve it for
 `configuration.yaml` changes that actually require it).
 
 ### 4. Verify. The step that isn't optional
@@ -107,7 +107,7 @@ curl -s -H "Authorization: Bearer $HA_TOKEN" "http://$HA_HOST:8123/api/states/me
 
 Tier (b) is the workhorse: **read the target entity before, trigger, read it
 after, and show both values.** "The call returned 200" is not a result;
-`"on" → "off"` is. Note `automation.trigger` bypasses conditions by default —
+`"on" → "off"` is. Note `automation.trigger` bypasses conditions by default:
 it validates the actions, not the logic.
 
 ## The silent-failure traps
@@ -117,13 +117,13 @@ one done, and first when debugging one that "just stopped working".
 
 - **Writes can silently no-op.** A service call to a wrong-but-plausible
   entity id, a `climate.set_temperature` in the wrong HVAC mode, a
-  `turn_off` on something already off — all return success. The only proof
+  `turn_off` on something already off: all return success. The only proof
   of a write is re-reading the entity afterwards. Before/after or it didn't
   happen.
 - **A dead service call aborts the rest of the automation.** If an action
   calls a service that no longer exists (the classic: a
   `notify.mobile_app_<old_phone>` left behind by a replaced phone), the
-  automation errors out at that step and every later action is skipped —
+  automation errors out at that step and every later action is skipped,
   with nothing visible unless you read the trace or the error log. When an
   automation "partially works", look for a dead action above the missing
   ones.
@@ -132,13 +132,13 @@ one done, and first when debugging one that "just stopped working".
   only fires when the attribute *changes*. If the entity has a single event
   type (many doorbells), the attribute never changes again and the
   automation dies silently after one firing. Trigger on the entity's state
-  with `not_from: ["unknown", "unavailable"]` instead — the state is the
+  with `not_from: ["unknown", "unavailable"]` instead: the state is the
   last-event timestamp, which changes every event. (Event entities that
   clear between detections don't have this problem; know which kind yours
   is.)
 - **`for:` durations reset on any flicker** of the watched state, and a Core
   restart (not a reload) resets them all. An automation that "never fires"
-  on a long `for:` may be getting reset by a chattering sensor — check the
+  on a long `for:` may be getting reset by a chattering sensor; check the
   sensor's history.
 - **Guessed entity ids fail quietly.** `ha core check` does not validate
   that entity ids exist. `light.livingroom` in an action is a runtime
@@ -149,15 +149,15 @@ one done, and first when debugging one that "just stopped working".
 
 ## Debugging one that never fires
 
-In order: (1) the automation entity is `on` (not `unavailable` — that's an
-orphaned registry entry); (2) `last_triggered` — never, or fired-then-dead?
+In order: (1) the automation entity is `on` (not `unavailable`; that's an
+orphaned registry entry); (2) `last_triggered`: never, or fired-then-dead?
 (3) fired-then-dead on an event entity → the attribute-trigger trap above;
 (4) never → verify each trigger entity id exists and check the trace of a
 forced condition; (5) fires but actions misbehave → dead-service abort, then
 per-action before/after reads.
 
 Traces (Settings → Automations → your automation → Traces) store the last
-runs with per-step results — read them before theorizing.
+runs with per-step results; read them before theorizing.
 
 ## Doctrine
 
