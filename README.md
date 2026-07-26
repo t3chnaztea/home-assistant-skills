@@ -154,14 +154,13 @@ original prose, instance details parameterized (`<HA_HOST>`, `$HA_TOKEN`,
 generic entity ids), markdown only, and show the reader how to verify the
 change. PRs welcome.
 
-## Companion repos
+## More tiny tools for home labs
 
-- [batocera-skills](https://github.com/t3chnaztea/batocera-skills): the same
-  idea for a Batocera retro-gaming cabinet (and the structural template for
-  this repo).
-- [awesome-psn-skills](https://github.com/t3chnaztea/awesome-psn-skills): the
-  same idea for reading a PlayStation play-history export (taste, backlog,
-  wishlist).
+Agent skills: [unifi](https://github.com/t3chnaztea/unifi-skills) · [batocera](https://github.com/t3chnaztea/batocera-skills) · [psn](https://github.com/t3chnaztea/awesome-psn-skills)  
+Retro cabinet: [batocera-toolbox](https://github.com/t3chnaztea/batocera-toolbox) · [batocera-holidays](https://github.com/t3chnaztea/batocera-holidays)  
+Home server: [dell-ipmi-fan-control](https://github.com/t3chnaztea/dell-ipmi-fan-control) · [plex-preroll-roulette](https://github.com/t3chnaztea/plex-preroll-roulette)  
+PlayStation: [awesome-psnstats](https://github.com/t3chnaztea/awesome-psnstats)  
+Desktop: [fastfetch-macos-gradient-hud](https://github.com/t3chnaztea/fastfetch-macos-gradient-hud)
 
 ## Versions
 
