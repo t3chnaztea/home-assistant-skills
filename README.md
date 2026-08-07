@@ -154,6 +154,11 @@ original prose, instance details parameterized (`<HA_HOST>`, `$HA_TOKEN`,
 generic entity ids), markdown only, and show the reader how to verify the
 change. PRs welcome.
 
+Every PR validates each `SKILL.md` against the
+[Agent Skills spec](https://agentskills.io/specification) via
+`.github/scripts/validate_skills.py`. Run the same check before you commit with
+`git config core.hooksPath .githooks`.
+
 ## More tiny tools for home labs
 
 Agent skills: [unifi](https://github.com/t3chnaztea/unifi-skills) · [batocera](https://github.com/t3chnaztea/batocera-skills) · [psn](https://github.com/t3chnaztea/awesome-psn-skills) · [arr-stack](https://github.com/t3chnaztea/arr-stack-skills)  
