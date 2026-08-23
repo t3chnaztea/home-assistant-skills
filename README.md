@@ -93,7 +93,9 @@ and to hold an admin API token.** That is exactly as powerful as it sounds.
   thing that controls your house.
 - **The token is a root password.** A long-lived access token grants full
   admin. The skills keep it in an env var, never in a file the agent might
-  commit or paste. Revoke tokens you stop using.
+  commit or paste. Revoke tokens you stop using. The longer version of this,
+  including when to move the token behind a broker the agent cannot read at
+  all, is [docs/secrets-hygiene.md](docs/secrets-hygiene.md).
 - **The doctrine is conservative by design:** read before write, validate
   before reload, off-actions over on-actions, and a before/after read on
   every change. But it's your house and your risk.

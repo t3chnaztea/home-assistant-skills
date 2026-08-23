@@ -1,6 +1,6 @@
 {
   "name": "home-assistant",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Agent skills for operating a Home Assistant smart home: SSH and REST connection doctrine, the instance map that stops entity-id guessing, the write-check-reload-verify automation loop with its silent-failure traps, and external triggers (utility price feeds, LLM-as-sensor via ai_task). Distilled from years of running a real instance with coding agents.",
   "author": {
     "name": "tech nasty"
