@@ -2,10 +2,11 @@
 # Validate staged SKILL.md files against the Agent Skills spec before committing.
 # Enable in a fresh clone with:  git config core.hooksPath .githooks
 
-staged=$(git diff --cached --name-only --diff-filter=ACM | grep 'SKILL\.md$')
-[ -z "$staged" ] && exit 0
+# ':(glob)**/SKILL.md' matches SKILL.md at the root and in any subdirectory.
+pathspec=':(glob)**/SKILL.md'
+[ -z "$(git diff --cached --name-only --diff-filter=ACM -- "$pathspec")" ] && exit 0
 
-script=".github/scripts/validate_skills.py"
+script="$(git rev-parse --show-toplevel)/.github/scripts/validate_skills.py"
 [ -f "$script" ] || exit 0
 
 # PyYAML is required. Prefer a python3 that already has it; otherwise use uv,
@@ -19,8 +20,16 @@ else
   exit 0
 fi
 
+# Validate the staged (index) copies, not the working tree: export them into a
+# temp dir with their paths intact (the name/parent-dir check needs the path).
+# NUL-delimited so paths with spaces survive.
+tmp=$(mktemp -d) || exit 1
+trap 'rm -rf "$tmp"' EXIT
+git diff --cached -z --name-only --diff-filter=ACM -- "$pathspec" |
+  xargs -0 git checkout-index --prefix="$tmp/" -- || exit 1
+
 # shellcheck disable=SC2086
-echo "$staged" | xargs $run "$script" || {
+(cd "$tmp" && $run "$script" .) || {
   echo >&2
   echo "pre-commit: SKILL.md failed spec validation. Fix the errors above, or bypass with --no-verify." >&2
   exit 1

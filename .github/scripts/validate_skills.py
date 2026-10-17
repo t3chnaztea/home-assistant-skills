@@ -21,7 +21,7 @@ except ImportError:
 
 SPEC_KEYS = {"name", "description", "license", "compatibility", "metadata", "allowed-tools"}
 NAME_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
-FRONTMATTER_RE = re.compile(r"^---\s*\n(.*?)\n---\s*\n", re.S)
+FRONTMATTER_RE = re.compile(r"^---[ \t]*\n(?:(.*?)\n)?---[ \t]*(?:\n|\Z)", re.S)
 SKIP_DIRS = {".git", "node_modules", ".venv"}
 
 
@@ -44,7 +44,7 @@ def check(path: Path):
         return errors, warnings
 
     try:
-        meta = yaml.safe_load(match.group(1))
+        meta = yaml.safe_load(match.group(1) or "")
     except yaml.YAMLError as exc:
         detail = str(exc).splitlines()[0]
         hint = ""
